@@ -128,6 +128,7 @@ public class Controller implements Runnable {
             serverLogArea.appendText("\nMessage was not sent.");
             e.printStackTrace();
         }
+        //Send the message to the Database from the Server side.
         dataTextConnection.getDataTextFromServer();
     }
 
@@ -145,6 +146,7 @@ public class Controller implements Runnable {
                 messageStringfromClient = getFromClient.readUTF();
                 serverChatArea.appendText("\n" + messageStringfromClient);
 
+                //Send the message to the Database from the client side.
                 dataTextConnection.getDataTextFromClient();
 
                 Platform.runLater(() -> {
