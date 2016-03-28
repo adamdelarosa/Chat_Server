@@ -145,6 +145,8 @@ public class Controller implements Runnable {
                 messageStringfromClient = getFromClient.readUTF();
                 serverChatArea.appendText("\n" + messageStringfromClient);
 
+                dataTextConnection.getDataTextFromClient();
+
                 Platform.runLater(() -> {
                     textLabelGetFromClient.setText("ONLINE");
                     textLabelGetFromClient.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
