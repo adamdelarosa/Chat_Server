@@ -65,6 +65,8 @@ public class Controller implements Runnable {
         runAndConnectToClient.start();
         connectToClientText.setText("ONLINE");
         connectToClientText.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
+        //DataBase writer:
+        databaseChatWriter();
     }
 
     public void serverSocketState() {
@@ -87,7 +89,6 @@ public class Controller implements Runnable {
     private void waitingForConnection() throws IOException {
         socketState = serverSocketState.accept();
         serverLogArea.appendText("\nWaiting for connection...");
-
     }
 
     @FXML
@@ -132,7 +133,6 @@ public class Controller implements Runnable {
         dataTextConnection.getDataTextFromServer();
     }
 
-
     private void getMessage() {
         getFromClientSwitch = true;
         iThread = new Thread(this);
@@ -168,5 +168,9 @@ public class Controller implements Runnable {
             textLabelGetFromClient.setTextFill(javafx.scene.paint.Color.web("#ff0000"));
         });
         serverLogArea.appendText("\nMessages - OFFLINE.");
+    }
+
+    private void databaseChatWriter(){
+        dataTextConnection.mysqlConnection();
     }
 }
