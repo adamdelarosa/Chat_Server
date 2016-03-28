@@ -1,13 +1,13 @@
 package Server;
 
+import Server.HealthCheck.ConnectionStatus;
+import Server.DataText.DataTextConnection;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import Server.HealthCheck.ConnectionStatus;
-
 import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -41,9 +41,10 @@ public class Controller implements Runnable {
     private int numberOfConnetions = 100;
     private Thread iThread;
     private boolean getFromClientSwitch = false;
-    private String clientMessageString;
-    private String serverMessageString;
+    public String messageStringfromClient;
+    public String messageStringFromServer;
     private ConnectionStatus classconnectionstatus;
+
 
     public void connectToClient() {
         getFromClientSwitch = true;
@@ -123,17 +124,20 @@ public class Controller implements Runnable {
     }
 
     public void sendMessage() {
-        serverMessageString = serverChatField.getText();
+        messageStringFromServer = serverChatField.getText();
         try {
-            sendToClient.writeUTF(serverMessageString);
+            sendToClient.writeUTF(messageStringFromServer);
             sendToClient.flush();
             serverChatField.setText("");
-            Platform.runLater(() -> serverChatArea.appendText("\n" + serverMessageString));
+            Platform.runLater(() -> serverChatArea.appendText("\n" + messageStringFromServer));
         } catch (IOException e) {
             serverLogArea.appendText("\nMessage was not sent.");
             e.printStackTrace();
         }
+        DataTextConnection dataTextConnection = new DataTextConnection(this);
+        dataTextConnection.getDataText();
     }
+
 
     private void getMessage() {
         getFromClientSwitch = true;
@@ -145,8 +149,8 @@ public class Controller implements Runnable {
         serverLogArea.appendText("\nMessages - ONLINE.");
         while (getFromClientSwitch) {
             try {
-                clientMessageString = getFromClient.readUTF();
-                serverChatArea.appendText("\n" + clientMessageString);
+                messageStringfromClient = getFromClient.readUTF();
+                serverChatArea.appendText("\n" + messageStringfromClient);
 
                 Platform.runLater(() -> {
                     textLabelGetFromClient.setText("ONLINE");
