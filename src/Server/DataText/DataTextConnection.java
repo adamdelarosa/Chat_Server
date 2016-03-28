@@ -21,4 +21,5 @@ public class DataTextConnection {
     public void getDataTextFromClient(){
         System.out.println("Message from Client: " + dataRecivedText.messageStringfromClient);
     }
+
 }

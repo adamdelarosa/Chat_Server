@@ -155,7 +155,7 @@ public class Controller implements Runnable {
                 });
 
             } catch (EOFException eofexception) {
-                eofexception.printStackTrace();
+                //eofexception.printStackTrace();
                 getFromClientSwitch = false;
                 serverLogArea.appendText("\nEOFException: getFromClient - STOPPED.");
             } catch (IOException eofexceptionGetMessage) {
