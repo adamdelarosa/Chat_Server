@@ -11,6 +11,10 @@ import java.util.logging.SimpleFormatter;
 
 public class ServerLogWriter {
 
+    private ServerLogWriter(){
+        serverLog();
+    }
+
     Logger logger = Logger.getLogger("MyLog");
     FileHandler fileHandler;
 
