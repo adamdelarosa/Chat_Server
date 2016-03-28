@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class DataTextConnection {
 
-    static final String JDBC_DRIVER_USE = "com.mysql.jdbc.Driver";
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DATABASE_URL = "jdbc:mysql://localhost/EMP";
     static final String USERNAME = "username";
     static final String PASSWORD = "password";
@@ -20,10 +20,6 @@ public class DataTextConnection {
         dataRecivedText = datarecivedtext;
     }
 
-    public DataTextConnection(){
-        mysqlConnection();
-    }
-
     public void getDataTextFromServer(){
         System.out.println("Message from Server: " + dataSentText.messageStringFromServer);
     }
@@ -31,28 +27,25 @@ public class DataTextConnection {
         System.out.println("Message from Client: " + dataRecivedText.messageStringfromClient);
     }
 
-    //Mysql connection:
     public void mysqlConnection(){
         Connection conn = null;
         Statement stmt = null;
-        System.out.println("Hello");
-
         try{
-            //STEP 2: Register JDBC driver
+            //JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
 
-            //STEP 3: Open a connection
+            //Open a connection
             System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(USERNAME,PASSWORD,DATABASE_URL);
+            conn = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
 
-            //STEP 4: Execute a query
+            //Query:
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
             sql = "SELECT id, first, last, age FROM Employees";
             ResultSet rs = stmt.executeQuery(sql);
 
-            //STEP 5: Extract data from result set
+            //Extract data:
             while(rs.next()){
                 //Retrieve by column name
                 int id  = rs.getInt("id");
@@ -66,16 +59,30 @@ public class DataTextConnection {
                 System.out.print(", First: " + first);
                 System.out.println(", Last: " + last);
             }
-            //STEP 6: Clean-up environment
+            //Close up:
             rs.close();
             stmt.close();
             conn.close();
-
         }catch(SQLException se){
+            //JDBC Error:
             se.printStackTrace();
-        }catch(Exception e) {
+        }catch(Exception e){
+            //Class.forName Error:
             e.printStackTrace();
+        }finally{
+            //Close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
         }
-            System.out.println("Connection MYSQL CLOSED.");
-        }
+        System.out.println("Goodbye!");
+    }
 }
