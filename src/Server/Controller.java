@@ -41,7 +41,8 @@ public class Controller implements Runnable {
     private int numberOfConnetions = 100;
     private Thread iThread;
     private boolean getFromClientSwitch = false;
-    private String msg;
+    private String clientMessageString;
+    private String serverMessageString;
     private ConnectionStatus classconnectionstatus;
 
     public void connectToClient() {
@@ -71,15 +72,15 @@ public class Controller implements Runnable {
         connectToClientText.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
     }
 
-    public void serverSocketState(){
-        if(serverSocketState == null) {
+    public void serverSocketState() {
+        if (serverSocketState == null) {
             try {
                 serverSocketState = new ServerSocket(port, numberOfConnetions);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             serverLogArea.appendText("\n" + String.valueOf(serverSocketState));
-        }else{
+        } else {
             serverLogArea.appendText("\n" + String.valueOf(serverSocketState));
         }
     }
@@ -122,17 +123,18 @@ public class Controller implements Runnable {
     }
 
     public void sendMessage() {
-        String messageOut = serverChatField.getText();
+        serverMessageString = serverChatField.getText();
         try {
-            sendToClient.writeUTF(messageOut);
+            sendToClient.writeUTF(serverMessageString);
             sendToClient.flush();
             serverChatField.setText("");
-            Platform.runLater(() -> serverChatArea.appendText("\n" + messageOut));
+            Platform.runLater(() -> serverChatArea.appendText("\n" + serverMessageString));
         } catch (IOException e) {
             serverLogArea.appendText("\nMessage was not sent.");
             e.printStackTrace();
         }
     }
+
     private void getMessage() {
         getFromClientSwitch = true;
         iThread = new Thread(this);
@@ -143,12 +145,12 @@ public class Controller implements Runnable {
         serverLogArea.appendText("\nMessages - ONLINE.");
         while (getFromClientSwitch) {
             try {
-                msg = getFromClient.readUTF();
-                serverChatArea.appendText("\n" + msg);
+                clientMessageString = getFromClient.readUTF();
+                serverChatArea.appendText("\n" + clientMessageString);
 
-                Platform.runLater(()->{
-                textLabelGetFromClient.setText("ONLINE");
-                textLabelGetFromClient.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
+                Platform.runLater(() -> {
+                    textLabelGetFromClient.setText("ONLINE");
+                    textLabelGetFromClient.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
                 });
 
             } catch (EOFException eofexception) {
