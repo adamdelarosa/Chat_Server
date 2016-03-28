@@ -134,8 +134,8 @@ public class Controller implements Runnable {
             serverLogArea.appendText("\nMessage was not sent.");
             e.printStackTrace();
         }
-        DataTextConnection dataTextConnection = new DataTextConnection(this);
-        dataTextConnection.getDataText();
+        DataTextConnection dataTextConnection = new DataTextConnection(this,this);
+        dataTextConnection.getDataTextFromServer();
     }
 
 
