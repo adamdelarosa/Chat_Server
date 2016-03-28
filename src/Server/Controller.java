@@ -16,20 +16,13 @@ import java.net.Socket;
 public class Controller implements Runnable {
 
     @FXML
-    private Label connectToClientText;
-    @FXML
-    private Label setSteamsText;
-    @FXML
-    private Label textLabelGetFromClient;
-    @FXML
+    public Label connectToClientText;
+    public Label setSteamsText;
+    public Label textLabelGetFromClient;
     public Label connectionStatusActive;
-    @FXML
     public TextArea serverChatArea, serverLogArea;
-    @FXML
     public TextField serverChatField;
-    @FXML
     public Button connectionStatusStart;
-    @FXML
     public Button connectionStatusStop;
     boolean tofConnectionStatus;
 
@@ -43,10 +36,9 @@ public class Controller implements Runnable {
     private boolean getFromClientSwitch = false;
     public String messageStringfromClient;
     public String messageStringFromServer;
+
     private ConnectionStatus classconnectionstatus;
     private DataTextConnection dataTextConnection = new DataTextConnection(this,this);
-
-
 
     public void connectToClient() {
         getFromClientSwitch = true;
