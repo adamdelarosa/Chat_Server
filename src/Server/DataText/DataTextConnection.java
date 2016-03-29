@@ -2,6 +2,7 @@ package Server.DataText;
 
 import Server.Controller;
 import java.sql.*;
+import java.util.Calendar;
 /**
  * Created by ROSA on 3/28/16.
  */
@@ -9,9 +10,10 @@ import java.sql.*;
 public class DataTextConnection {
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DATABASE_URL = "jdbc:mysql://localhost/EMP";
+    static final String DATABASE_URL = "jdbc:mysql://localhost/TEXTDATA";
     static final String USERNAME = "username";
     static final String PASSWORD = "password";
+    static String textMessageData = "Hello again";
 
     private Controller dataSentText,dataRecivedText;
 
@@ -30,51 +32,60 @@ public class DataTextConnection {
     public void mysqlConnection(){
         Connection conn = null;
         Statement stmt = null;
+
+        // create a sql date object so we can use it in our INSERT statement
+        Calendar calendar = Calendar.getInstance();
+        java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
+        java.sql.Time stertTime = new java.sql.Time(calendar.getTime().getTime());
+
         try{
-            //JDBC driver
+            //Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
 
             //Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
+            System.out.println("Connecting to a selected database...");
+            conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
+            System.out.println("Connected database successfully...");
 
-            //Query:
-            System.out.println("Creating statement...");
+            //Execute a query
+            System.out.println("Inserting records into the table...");
             stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT id, first, last, age FROM Employees";
-            ResultSet rs = stmt.executeQuery(sql);
 
-            //Extract data:
-            while(rs.next()){
-                //Retrieve by column name
-                int id  = rs.getInt("id");
-                int age = rs.getInt("age");
-                String first = rs.getString("first");
-                String last = rs.getString("last");
+            String sql = null;
 
-                //Display values
-                System.out.print("ID: " + id);
-                System.out.print(", Age: " + age);
-                System.out.print(", First: " + first);
-                System.out.println(", Last: " + last);
-            }
-            //Close up:
-            rs.close();
-            stmt.close();
-            conn.close();
+            //Create DB:
+            /*sql = "CREATE DATABASE TEXTDATA";
+            stmt.executeUpdate(sql);*/
+
+            //Create Table:
+            /*sql = "CREATE TABLE TEXT_DATA_TABLE " + "(DATE DATE ,TIME TIME , TEXT BLOB(1000))";
+            stmt.executeUpdate(sql);*/
+
+            //ADD TEXT DATA IN REAL - TIME.
+            String query = " insert into TEXT_DATA_TABLE (DATE , TIME , TEXT)" + " values (?,?,?)";
+
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setDate (1, startDate);
+            preparedStmt.setTime (2, stertTime);
+            preparedStmt.setString (3, textMessageData);
+            preparedStmt.execute();
+            System.out.println(startDate);
+
+
+
+
+            System.out.println("Database.");
+
         }catch(SQLException se){
-            //JDBC Error:
             se.printStackTrace();
         }catch(Exception e){
-            //Class.forName Error:
             e.printStackTrace();
         }finally{
-            //Close resources
             try{
                 if(stmt!=null)
-                    stmt.close();
-            }catch(SQLException se2){
+                    conn.close();
+            }catch(SQLException se){
             }
             try{
                 if(conn!=null)
