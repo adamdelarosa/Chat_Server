@@ -43,14 +43,6 @@ public class DataTextConnection {
             stmt = conn.createStatement();
             String sql = null;
 
-            //Create DB:
-            /*sql = "CREATE DATABASE TEXTDATA";
-            stmt.executeUpdate(sql);*/
-
-            //Create Table:
-            /*sql = "CREATE TABLE TEXT_DATA_TABLE " + "(DATE DATE ,TIME TIME , TEXT BLOB(1000))";
-            stmt.executeUpdate(sql);*/
-
             //ADD TEXT DATA IN REAL - TIME.
             String query = " insert into TEXT_DATA_TABLE (DATE , TIME , TEXT)" + " values (?,?,?)";
 
