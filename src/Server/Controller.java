@@ -48,7 +48,7 @@ public class Controller implements Runnable {
         serverLogArea.appendText("*** Server Started ***");
 
         //Add history to chat window from Mysql
-        dataAddHistoryChat.printer();
+        dataAddHistoryChat.getTextHistoryMysql();
 
         Thread runAndConnectToClient = new Thread(() -> {
             try {
