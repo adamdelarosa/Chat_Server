@@ -1,5 +1,6 @@
 package Server;
 
+import Server.DataText.DataAddHistoryChat;
 import Server.DataText.DataAddMysqlTable;
 import Server.HealthCheck.ConnectionStatus;
 import Server.DataText.DataTextConnection;
@@ -40,10 +41,15 @@ public class Controller implements Runnable {
 
     private ConnectionStatus classconnectionstatus;
     private DataTextConnection dataTextConnection = new DataTextConnection();
+    private DataAddHistoryChat dataAddHistoryChat = new DataAddHistoryChat(this);
 
     public void connectToClient() {
         getFromClientSwitch = true;
         serverLogArea.appendText("*** Server Started ***");
+
+        //Add history to chat window from Mysql
+        dataAddHistoryChat.printer();
+
         Thread runAndConnectToClient = new Thread(() -> {
             try {
 
