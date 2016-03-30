@@ -13,23 +13,8 @@ public class DataTextConnection {
     static final String DATABASE_URL = "jdbc:mysql://localhost/TEXTDATA";
     static final String USERNAME = "username";
     static final String PASSWORD = "password";
-    static String textMessageData = "Hello again";
 
-    private Controller dataSentText,dataRecivedText;
-
-    public DataTextConnection(Controller datasenttext,Controller datarecivedtext){
-        dataSentText = datasenttext;
-        dataRecivedText = datarecivedtext;
-    }
-
-    public void getDataTextFromServer(){
-        System.out.println("Message from Server: " + dataSentText.messageStringFromServer);
-    }
-    public void getDataTextFromClient(){
-        System.out.println("Message from Client: " + dataRecivedText.messageStringfromClient);
-    }
-
-    public void mysqlConnection(){
+    public void mysqlConnection(String textTransfer){
         Connection conn = null;
         Statement stmt = null;
 
@@ -48,11 +33,8 @@ public class DataTextConnection {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setDate (1, startDate);
             preparedStmt.setTime (2, stertTime);
-            preparedStmt.setString (3, textMessageData);
+            preparedStmt.setString (3, textTransfer);
             preparedStmt.execute();
-            System.out.println(startDate);
-
-            System.out.println("Database.");
 
         }catch(SQLException se){
             se.printStackTrace();

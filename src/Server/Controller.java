@@ -39,7 +39,7 @@ public class Controller implements Runnable {
     public String messageStringFromServer;
 
     private ConnectionStatus classconnectionstatus;
-    private DataTextConnection dataTextConnection = new DataTextConnection(this,this);
+    private DataTextConnection dataTextConnection = new DataTextConnection();
     private DataAddMysqlTable dataAddMysqlTable;
 
     public void connectToClient() {
@@ -67,8 +67,6 @@ public class Controller implements Runnable {
         runAndConnectToClient.start();
         connectToClientText.setText("ONLINE");
         connectToClientText.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
-        //DataBase writer:
-        databaseChatWriter();
     }
 
     public void serverSocketState() {
@@ -131,8 +129,8 @@ public class Controller implements Runnable {
             serverLogArea.appendText("\nMessage was not sent.");
             e.printStackTrace();
         }
-        //Send the message to the Database from the Server side.
-        dataTextConnection.getDataTextFromServer();
+        //DataBase writer:
+        dataTextConnection.mysqlConnection(messageStringFromServer);
     }
 
     private void getMessage() {
@@ -147,9 +145,6 @@ public class Controller implements Runnable {
             try {
                 messageStringfromClient = getFromClient.readUTF();
                 serverChatArea.appendText("\n" + messageStringfromClient);
-
-                //Send the message to the Database from the client side.
-                dataTextConnection.getDataTextFromClient();
 
                 Platform.runLater(() -> {
                     textLabelGetFromClient.setText("ONLINE");
@@ -170,10 +165,6 @@ public class Controller implements Runnable {
             textLabelGetFromClient.setTextFill(javafx.scene.paint.Color.web("#ff0000"));
         });
         serverLogArea.appendText("\nMessages - OFFLINE.");
-    }
-
-    private void databaseChatWriter(){
-        dataTextConnection.mysqlConnection();
     }
 
     /*private void mysqlAddDB(){
