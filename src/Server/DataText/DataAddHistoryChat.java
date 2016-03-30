@@ -22,10 +22,6 @@ public class DataAddHistoryChat {
         serverChatAreaAdd = serverchatareaadd;
     }
 
-    public void printer(){
-        serverChatAreaAdd.serverChatArea.appendText("BLAB");
-    }
-
     public void getTextHistoryMysql(){
         Connection conn = null;
         Statement stmt = null;
@@ -35,15 +31,13 @@ public class DataAddHistoryChat {
             conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
             stmt = conn.createStatement();
 
-            //ADD TEXT DATA IN REAL - TIME.
-
-            //String query = " insert into TEXT_DATA_TABLE (DATE , TIME , TEXT)" + " values (?,?,?)";
+            //Add text to chat window.
 
             String sql = "SELECT TEXT FROM TEXT_DATA_TABLE";
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 String text = rs.getString("TEXT");
-                System.out.println(text);
+                serverChatAreaAdd.serverChatArea.appendText("\n" + text);
             }
 
 
