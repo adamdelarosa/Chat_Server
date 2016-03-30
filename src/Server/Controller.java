@@ -40,7 +40,6 @@ public class Controller implements Runnable {
 
     private ConnectionStatus classconnectionstatus;
     private DataTextConnection dataTextConnection = new DataTextConnection();
-    private DataAddMysqlTable dataAddMysqlTable;
 
     public void connectToClient() {
         getFromClientSwitch = true;
@@ -167,7 +166,8 @@ public class Controller implements Runnable {
         serverLogArea.appendText("\nMessages - OFFLINE.");
     }
 
-    /*private void mysqlAddDB(){
+/*    private void mysqlAddDB(){
+        DataAddMysqlTable dataAddMysqlTable = new DataAddMysqlTable();
         dataAddMysqlTable.mysqlConnectionAddTable();
     }*/
 }
