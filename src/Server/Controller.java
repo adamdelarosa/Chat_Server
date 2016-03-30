@@ -149,7 +149,7 @@ public class Controller implements Runnable {
         while (getFromClientSwitch) {
             try {
                 messageStringfromClient = getFromClient.readUTF();
-                serverChatArea.appendText("\n" + messageStringfromClient);
+                serverChatArea.appendText("\n" + "\t" + messageStringfromClient);
 
                 //DataBase writer:
                 dataTextConnection.mysqlConnection(messageStringfromClient);
