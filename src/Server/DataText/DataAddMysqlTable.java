@@ -9,11 +9,10 @@ import java.util.Calendar;
 
 public class DataAddMysqlTable {
 
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DATABASE_URL = "jdbc:mysql://localhost/TEXTDATA";
-    static final String USERNAME = "username";
-    static final String PASSWORD = "password";
-    static String textMessageData = "Hello again";
+    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost/TEXTDATA";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
 
     public void mysqlConnectionAddTable(){
         Connection conn = null;
@@ -36,16 +35,6 @@ public class DataAddMysqlTable {
             //Create Table:
             /*sql = "CREATE TABLE TEXT_DATA_TABLE " + "(DATE DATE ,TIME TIME , TEXT BLOB(1000))";
             stmt.executeUpdate(sql);*/
-
-            //ADD TEXT DATA IN REAL - TIME.
-            String query = " insert into TEXT_DATA_TABLE (DATE , TIME , TEXT)" + " values (?,?,?)";
-
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setDate (1, startDate);
-            preparedStmt.setTime (2, stertTime);
-            preparedStmt.setString (3, textMessageData);
-            preparedStmt.execute();
-            System.out.println(startDate);
 
             System.out.println("Database.");
 
