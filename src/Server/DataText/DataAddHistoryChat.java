@@ -39,15 +39,6 @@ public class DataAddHistoryChat {
                 String text = rs.getString("TEXT");
                 serverChatAreaAdd.serverChatArea.appendText("\n" + text);
             }
-
-
-
-            //PreparedStatement preparedStmt = conn.prepareStatement(query);
-            //preparedStmt.setDate (1, startDate);
-            //preparedStmt.setTime (2, stertTime);
-            //preparedStmt.setString (3, null);
-            //preparedStmt.execute();
-
         }catch(SQLException se){
             se.printStackTrace();
         }catch(Exception e){
