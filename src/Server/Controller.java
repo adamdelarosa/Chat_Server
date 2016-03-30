@@ -176,7 +176,7 @@ public class Controller implements Runnable {
         dataTextConnection.mysqlConnection();
     }
 
-    private void mysqlAddDB(){
+    /*private void mysqlAddDB(){
         dataAddMysqlTable.mysqlConnectionAddTable();
-    }
+    }*/
 }

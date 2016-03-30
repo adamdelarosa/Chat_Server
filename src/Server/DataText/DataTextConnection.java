@@ -41,7 +41,6 @@ public class DataTextConnection {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
             stmt = conn.createStatement();
-            String sql = null;
 
             //ADD TEXT DATA IN REAL - TIME.
             String query = " insert into TEXT_DATA_TABLE (DATE , TIME , TEXT)" + " values (?,?,?)";
