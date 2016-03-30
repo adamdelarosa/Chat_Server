@@ -39,18 +39,9 @@ public class DataTextConnection {
         java.sql.Time stertTime = new java.sql.Time(calendar.getTime().getTime());
 
         try{
-            //Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
-
-            //Open a connection
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
-            System.out.println("Connected database successfully...");
-
-            //Execute a query
-            System.out.println("Inserting records into the table...");
             stmt = conn.createStatement();
-
             String sql = null;
 
             //Create DB:
