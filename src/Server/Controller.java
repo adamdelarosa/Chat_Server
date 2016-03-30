@@ -1,5 +1,6 @@
 package Server;
 
+import Server.DataText.DataAddMysqlTable;
 import Server.HealthCheck.ConnectionStatus;
 import Server.DataText.DataTextConnection;
 import javafx.application.Platform;
@@ -39,6 +40,7 @@ public class Controller implements Runnable {
 
     private ConnectionStatus classconnectionstatus;
     private DataTextConnection dataTextConnection = new DataTextConnection(this,this);
+    private DataAddMysqlTable dataAddMysqlTable;
 
     public void connectToClient() {
         getFromClientSwitch = true;
@@ -172,5 +174,9 @@ public class Controller implements Runnable {
 
     private void databaseChatWriter(){
         dataTextConnection.mysqlConnection();
+    }
+
+    private void mysqlAddDB(){
+        dataAddMysqlTable.mysqlConnectionAddTable();
     }
 }

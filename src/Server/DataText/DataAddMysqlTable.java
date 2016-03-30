@@ -1,8 +1,7 @@
 package Server.DataText;
 
-import Server.Controller;
 import java.sql.*;
-import java.util.Calendar;
+
 /**
  * Created by ROSA on 3/28/16.
  */
@@ -18,10 +17,6 @@ public class DataAddMysqlTable {
         Connection conn = null;
         Statement stmt = null;
 
-        Calendar calendar = Calendar.getInstance();
-        java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
-        java.sql.Time stertTime = new java.sql.Time(calendar.getTime().getTime());
-
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
@@ -29,12 +24,12 @@ public class DataAddMysqlTable {
             String sql = null;
 
             //Create DB:
-            /*sql = "CREATE DATABASE TEXTDATA";
-            stmt.executeUpdate(sql);*/
+            sql = "CREATE DATABASE TEXTDATA";
+            stmt.executeUpdate(sql);
 
             //Create Table:
-            /*sql = "CREATE TABLE TEXT_DATA_TABLE " + "(DATE DATE ,TIME TIME , TEXT BLOB(1000))";
-            stmt.executeUpdate(sql);*/
+            sql = "CREATE TABLE TEXT_DATA_TABLE " + "(DATE DATE ,TIME TIME , TEXT BLOB(1000))";
+            stmt.executeUpdate(sql);
 
             System.out.println("Database.");
 
