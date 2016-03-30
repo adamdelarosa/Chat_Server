@@ -33,7 +33,6 @@ public class DataTextConnection {
         Connection conn = null;
         Statement stmt = null;
 
-        // create a sql date object so we can use it in our INSERT statement
         Calendar calendar = Calendar.getInstance();
         java.sql.Date startDate = new java.sql.Date(calendar.getTime().getTime());
         java.sql.Time stertTime = new java.sql.Time(calendar.getTime().getTime());
@@ -55,16 +54,12 @@ public class DataTextConnection {
             //ADD TEXT DATA IN REAL - TIME.
             String query = " insert into TEXT_DATA_TABLE (DATE , TIME , TEXT)" + " values (?,?,?)";
 
-            // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setDate (1, startDate);
             preparedStmt.setTime (2, stertTime);
             preparedStmt.setString (3, textMessageData);
             preparedStmt.execute();
             System.out.println(startDate);
-
-
-
 
             System.out.println("Database.");
 
@@ -85,6 +80,5 @@ public class DataTextConnection {
                 se.printStackTrace();
             }
         }
-        System.out.println("Goodbye!");
     }
 }
