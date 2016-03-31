@@ -110,7 +110,7 @@ public class Controller implements Runnable {
     }
 
     public void testSwitch() {
-        wavplayer.SoundClip();
+        wavplayer.SoundClipSwitch();
         tofConnectionStatus = !tofConnectionStatus;
         System.out.println("STATE: " + tofConnectionStatus);
     }
@@ -162,7 +162,6 @@ public class Controller implements Runnable {
                 dataTextConnection.mysqlConnection(messageStringfromClient);
 
                 //Sound pop while get message:
-                wavplayer.SoundClip();
 
 
                 Platform.runLater(() -> {
