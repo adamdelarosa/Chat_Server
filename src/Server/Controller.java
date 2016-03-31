@@ -4,6 +4,7 @@ import Server.DataText.DataAddHistoryChat;
 import Server.DataText.DataAddMysqlTable;
 import Server.HealthCheck.ConnectionStatus;
 import Server.DataText.DataTextConnection;
+import Server.SoundPlayer.WavPlayer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,6 +48,7 @@ public class Controller implements Runnable {
     private ConnectionStatus classconnectionstatus;
     private DataTextConnection dataTextConnection = new DataTextConnection();
     private DataAddHistoryChat dataAddHistoryChat = new DataAddHistoryChat(this);
+    private WavPlayer wavplayer;
 
     public void connectToClient() {
         getFromClientSwitch = true;
@@ -113,7 +115,7 @@ public class Controller implements Runnable {
     }
 
     public void testSwitch() {
-        SoundClipTest();
+        wavplayer.SoundClipTest();
         tofConnectionStatus = !tofConnectionStatus;
         System.out.println("STATE: " + tofConnectionStatus);
     }
@@ -150,18 +152,6 @@ public class Controller implements Runnable {
         iThread.run();
     }
 
-    public void SoundClipTest() {
-        try {
-            InputStream is = ClassLoader.getSystemResourceAsStream("Server/Sound/in.wav");
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     //Get message:
 
     public void run() {
@@ -177,7 +167,7 @@ public class Controller implements Runnable {
                 dataTextConnection.mysqlConnection(messageStringfromClient);
 
                 //Sound pop while get message:
-                SoundClipTest();
+                wavplayer.SoundClipTest();
 
 
                 Platform.runLater(() -> {
