@@ -25,7 +25,6 @@ public class Main extends Application {
 
     public void stop(){
         controller.closeConnection();
-        controller.connectionStatusStop();
         Platform.exit();
     }
 
