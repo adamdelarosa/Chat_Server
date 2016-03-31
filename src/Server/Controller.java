@@ -91,6 +91,9 @@ public class Controller implements Runnable {
     }
 
     public void closeConnection() {
+        try {
+            serverLogArea.appendText("\nClosing connection.");
+        }catch (Exception gui){}
         getFromClientSwitch = false; //<--- Kill Controller Thread
         wavplayer.SoundClipConnectionOffline();
     }
