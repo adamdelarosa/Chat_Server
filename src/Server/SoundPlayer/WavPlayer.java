@@ -10,8 +10,7 @@ import java.io.InputStream;
  */
 public class WavPlayer {
 
-    public void SoundClipTest() {
-        System.out.println("sa");
+    public void SoundClip() {
         try {
             InputStream is = ClassLoader.getSystemResourceAsStream("Server/Sound/in.wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);

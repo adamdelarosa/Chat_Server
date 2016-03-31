@@ -1,7 +1,6 @@
 package Server;
 
 import Server.DataText.DataAddHistoryChat;
-import Server.DataText.DataAddMysqlTable;
 import Server.HealthCheck.ConnectionStatus;
 import Server.DataText.DataTextConnection;
 import Server.SoundPlayer.WavPlayer;
@@ -12,14 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.URL;
 
 public class Controller implements Runnable {
 
@@ -48,7 +43,7 @@ public class Controller implements Runnable {
     private ConnectionStatus classconnectionstatus;
     private DataTextConnection dataTextConnection = new DataTextConnection();
     private DataAddHistoryChat dataAddHistoryChat = new DataAddHistoryChat(this);
-    private WavPlayer wavplayer;
+    private WavPlayer wavplayer = new WavPlayer();
 
     public void connectToClient() {
         getFromClientSwitch = true;
@@ -115,7 +110,7 @@ public class Controller implements Runnable {
     }
 
     public void testSwitch() {
-        wavplayer.SoundClipTest();
+        wavplayer.SoundClip();
         tofConnectionStatus = !tofConnectionStatus;
         System.out.println("STATE: " + tofConnectionStatus);
     }
@@ -167,7 +162,7 @@ public class Controller implements Runnable {
                 dataTextConnection.mysqlConnection(messageStringfromClient);
 
                 //Sound pop while get message:
-                wavplayer.SoundClipTest();
+                wavplayer.SoundClip();
 
 
                 Platform.runLater(() -> {
