@@ -58,6 +58,7 @@ public class ConnectionStatus implements Runnable {
             try {
                 startButton.connectionStatusStart.setDisable(true);
                 System.out.println("Thread id: ");
+
                 iThread.sleep(1000);
             } catch (InterruptedException interruptedException) {
                 System.out.println("InterruptedException: thread " + "(SLEEP) - " + "Connection status");

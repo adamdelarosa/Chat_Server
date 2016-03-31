@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
 import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -40,10 +39,11 @@ public class Controller implements Runnable {
     public String messageStringfromClient;
     public String messageStringFromServer;
 
-    private ConnectionStatus classconnectionstatus;
     private DataTextConnection dataTextConnection = new DataTextConnection();
     private DataAddHistoryChat dataAddHistoryChat = new DataAddHistoryChat(this);
-    private WavPlayer wavplayer = new WavPlayer();
+    private WavPlayer wavPlayer = new WavPlayer();
+    private ConnectionStatus connectionStatus = new ConnectionStatus(true,this,this,this,this);
+
 
     public void connectToClient() {
         getFromClientSwitch = true;
@@ -55,7 +55,7 @@ public class Controller implements Runnable {
         Thread runAndConnectToClient = new Thread(() -> {
             try {
 
-                while (true) {
+                while (true)
                     try {
                         serverSocketState();
                         waitingForConnection();
@@ -64,7 +64,6 @@ public class Controller implements Runnable {
                     } catch (EOFException eofexception) {
                         closeConnection();
                     }
-                }
             } catch (BindException bindexception) {
                 bindexception.printStackTrace();
             } catch (IOException ioexception) {
@@ -74,7 +73,7 @@ public class Controller implements Runnable {
         runAndConnectToClient.start();
         connectToClientText.setText("ONLINE");
         connectToClientText.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
-        wavplayer.SoundClipConnectionOnline();
+        wavPlayer.SoundClipConnectionOnline();
     }
 
     public void serverSocketState() {
@@ -93,9 +92,11 @@ public class Controller implements Runnable {
     public void closeConnection() {
         try {
             serverLogArea.appendText("\nClosing connection.");
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+
+        }
         getFromClientSwitch = false; //<--- Kill Controller Thread
-        wavplayer.SoundClipConnectionOffline();
+        wavPlayer.SoundClipConnectionOffline();
     }
 
     private void waitingForConnection() throws IOException {
@@ -105,21 +106,20 @@ public class Controller implements Runnable {
 
     @FXML
     public void connectionStatusStart() {
-        classconnectionstatus = new ConnectionStatus(true, this, this, this, this);
-        classconnectionstatus.startConnecionStatusCheck();
-        wavplayer.SoundClipConnectionStatusStart();
+        connectionStatus.startConnecionStatusCheck();
+        wavPlayer.SoundClipConnectionStatusStart();
     }
 
     @FXML
     public void connectionStatusStop() {
-        classconnectionstatus.killConnecionStatusCheck();
-        wavplayer.SoundClipConnectionStatusEnd();
+        connectionStatus.killConnecionStatusCheck();
+        wavPlayer.SoundClipConnectionStatusEnd();
     }
 
     public void testSwitch() {
         tofConnectionStatus = !tofConnectionStatus;
         System.out.println("STATE: " + tofConnectionStatus);
-        wavplayer.SoundClipSwitch();
+        wavPlayer.SoundClipSwitch();
 
     }
 
@@ -141,7 +141,7 @@ public class Controller implements Runnable {
             sendToClient.flush();
             serverChatField.setText("");
             Platform.runLater(() -> serverChatArea.appendText("\n" + messageStringFromServer));
-            wavplayer.SoundClipMessageOut();
+            wavPlayer.SoundClipMessageOut();
         } catch (IOException e) {
             serverLogArea.appendText("\nMessage was not sent.");
             e.printStackTrace();
@@ -171,7 +171,7 @@ public class Controller implements Runnable {
                 dataTextConnection.mysqlConnection(messageStringfromClient);
 
                 //Sound pop while get message:
-                wavplayer.SoundClipMessageIn();
+                wavPlayer.SoundClipMessageIn();
 
                 Platform.runLater(() -> {
                     textLabelGetFromClient.setText("ONLINE");
