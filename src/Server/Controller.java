@@ -10,10 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 
 public class Controller implements Runnable {
 
@@ -108,6 +113,7 @@ public class Controller implements Runnable {
     }
 
     public void testSwitch() {
+        SoundClipTest();
         tofConnectionStatus = !tofConnectionStatus;
         System.out.println("STATE: " + tofConnectionStatus);
     }
@@ -144,8 +150,24 @@ public class Controller implements Runnable {
         iThread.run();
     }
 
+    public void SoundClipTest() {
+        try {
+            InputStream is = ClassLoader.getSystemResourceAsStream("Server/Sound/in.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Get message:
+
     public void run() {
         serverLogArea.appendText("\nMessages - ONLINE.");
+
+
         while (getFromClientSwitch) {
             try {
                 messageStringfromClient = getFromClient.readUTF();
@@ -153,6 +175,10 @@ public class Controller implements Runnable {
 
                 //DataBase writer:
                 dataTextConnection.mysqlConnection(messageStringfromClient);
+
+                //Sound pop while get message:
+                SoundClipTest();
+
 
                 Platform.runLater(() -> {
                     textLabelGetFromClient.setText("ONLINE");
@@ -167,6 +193,7 @@ public class Controller implements Runnable {
                 serverLogArea.appendText("\nIOException: getFromClient - STOPPED.");
                 eofexceptionGetMessage.printStackTrace();
             }
+
         }
         Platform.runLater(() -> {
             textLabelGetFromClient.setText("OFFLINE");
