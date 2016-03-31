@@ -74,6 +74,7 @@ public class Controller implements Runnable {
         runAndConnectToClient.start();
         connectToClientText.setText("ONLINE");
         connectToClientText.setTextFill(javafx.scene.paint.Color.web("#00FF00"));
+        wavplayer.SoundClipConnectionOnline();
     }
 
     public void serverSocketState() {
@@ -91,6 +92,7 @@ public class Controller implements Runnable {
 
     public void closeConnection() {
         getFromClientSwitch = false; //<--- Kill Controller Thread
+        wavplayer.SoundClipConnectionOffline();
     }
 
     private void waitingForConnection() throws IOException {
@@ -102,17 +104,20 @@ public class Controller implements Runnable {
     public void connectionStatusStart() {
         classconnectionstatus = new ConnectionStatus(true, this, this, this, this);
         classconnectionstatus.startConnecionStatusCheck();
+        wavplayer.SoundClipConnectionStatusStart();
     }
 
     @FXML
     public void connectionStatusStop() {
         classconnectionstatus.killConnecionStatusCheck();
+        wavplayer.SoundClipConnectionStatusEnd();
     }
 
     public void testSwitch() {
-        wavplayer.SoundClipSwitch();
         tofConnectionStatus = !tofConnectionStatus;
         System.out.println("STATE: " + tofConnectionStatus);
+        wavplayer.SoundClipSwitch();
+
     }
 
     private void setSteams() throws IOException {
@@ -133,6 +138,7 @@ public class Controller implements Runnable {
             sendToClient.flush();
             serverChatField.setText("");
             Platform.runLater(() -> serverChatArea.appendText("\n" + messageStringFromServer));
+            wavplayer.SoundClipMessageOut();
         } catch (IOException e) {
             serverLogArea.appendText("\nMessage was not sent.");
             e.printStackTrace();
@@ -162,7 +168,7 @@ public class Controller implements Runnable {
                 dataTextConnection.mysqlConnection(messageStringfromClient);
 
                 //Sound pop while get message:
-
+                wavplayer.SoundClipMessageIn();
 
                 Platform.runLater(() -> {
                     textLabelGetFromClient.setText("ONLINE");
